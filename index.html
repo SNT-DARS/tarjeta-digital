@@ -10,16 +10,27 @@
     * { box-sizing: border-box; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:#f3f4f6; color:var(--text); }
     .wrap { min-height: 100dvh; display:grid; place-items:center; padding:24px; }
-    .card { width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:28px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
-    .header { display:flex; align-items:center; justify-content:flex-end; } /* solo logo a la derecha */
-    .logo { height:64px; max-width:180px; object-fit:contain; }
-    .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:20px; }
-    @media (max-width:560px){ .grid { grid-template-columns:1fr; } }
-    a.btn { display:flex; align-items:center; gap:10px; padding:14px 14px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
+    .card { width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+
+    /* Header: solo logo a la izquierda */
+    .header { display:flex; align-items:center; justify-content:flex-start; }
+    .logo { height:64px; max-width:200px; object-fit:contain; }
+
+    /* Fila de información (texto sin enlaces) */
+    .info { margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .info .box { background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; color:#374151; }
+    .info .label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+    .info .value { font-size:14px; font-weight:600; }
+
+    /* Recuadros de acciones iguales (4 en una fila) */
+    .actions { margin-top:16px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
+    @media (max-width:720px){ .actions { grid-template-columns: repeat(2, 1fr); } }
+    a.btn { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
     a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
     .btn small { color: var(--muted); display:block; font-size:12px; }
     .btn strong { display:block; font-size:14px; }
-    .footer { margin-top:18px; display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; }
+
+    .footer { margin-top:16px; display:flex; justify-content:flex-end; }
     .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:10px 12px; border-radius:12px; text-decoration:none; }
   </style>
 </head>
@@ -32,30 +43,39 @@
         <img class="logo" id="logo" src="logo.png" alt="Autoservicio" />
       </div>
 
-      <!-- ACCIONES PRINCIPALES -->
-      <div class="grid">
-        <!-- WhatsApp -->
+      <!-- TEXTO (sin enlaces) -->
+      <div class="info">
+        <div class="box">
+          <span class="label">Dirección</span>
+          <span class="value" id="dirText">calzada aguilar batres 10-19 zona 12, Guatemala</span>
+        </div>
+        <div class="box">
+          <span class="label">Contacto</span>
+          <span class="value" id="contactText">56332940 · autoservicioelpunto@gmail.com</span>
+        </div>
+      </div>
+
+      <!-- ACCIONES (4 iguales abajo) -->
+      <div class="actions">
+        <!-- 1) WhatsApp -->
         <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
           <span>💬</span>
           <span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
         </a>
-
-        <!-- Email -->
+        <!-- 2) Email -->
         <a class="btn" id="mailLink" href="#" rel="noopener">
           <span>✉️</span>
           <span><small>Email</small><strong id="emailText"></strong></span>
         </a>
-
-        <!-- Google Maps -->
-        <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
-          <span>📍</span>
-          <span><small>Cómo llegar</small><strong>Ver en Google Maps</strong></span>
-        </a>
-
-        <!-- Waze -->
+        <!-- 3) Waze -->
         <a class="btn" id="wazeLink" href="#" target="_blank" rel="noopener">
           <span>🧭</span>
           <span><small>Waze</small><strong>Abrir en Waze</strong></span>
+        </a>
+        <!-- 4) Google Maps -->
+        <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
+          <span>📍</span>
+          <span><small>Google Maps</small><strong>Ver en Google Maps</strong></span>
         </a>
       </div>
 
@@ -70,9 +90,10 @@
     // ======== TUS DATOS ========
     const DATA = {
       whatsappNumber: "50256332940", // sin + ni espacios
+      phonePretty: "56332940",        // solo para mostrar
       email: "autoservicioelpunto@gmail.com",
-      addressText: "Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita",
-      lat: null,
+      addressText: "calzada aguilar batres 10-19 zona 12, Guatemala",
+      lat: null,  // si algún día quieres precisión con coordenadas
       lng: null,
       shareTitle: "Autoservicio — Tarjeta",
       shareText: "Contacto de Autoservicio"
@@ -80,6 +101,10 @@
 
     // ======== NO EDITAR ABAJO ========
     const $ = (sel) => document.querySelector(sel);
+
+    // Texto sin enlaces
+    $('#dirText').textContent = DATA.addressText;
+    $('#contactText').textContent = `${DATA.phonePretty} · ${DATA.email}`;
 
     // WhatsApp con mensaje prellenado
     const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
@@ -89,16 +114,15 @@
     $('#mailLink').href = `mailto:${DATA.email}`;
     $('#emailText').textContent = DATA.email;
 
-    // Mapas
+    // Mapas (Waze y Google Maps)
     const enc = encodeURIComponent;
     const mapsQuery = (DATA.lat && DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
-    const gmaps = `https://maps.google.com/?q=${mapsQuery}`;
     const waze = (DATA.lat && DATA.lng)
       ? `https://waze.com/ul?ll=${DATA.lat}%2C${DATA.lng}&navigate=yes`
       : `https://waze.com/ul?q=${enc(DATA.addressText)}&navigate=yes`;
-
-    $('#mapsLink').href = gmaps;
+    const gmaps = `https://maps.google.com/?q=${mapsQuery}`;
     $('#wazeLink').href = waze;
+    $('#mapsLink').href = gmaps;
 
     // Compartir (si el navegador lo soporta)
     const shareBtn = $('#shareBtn');
