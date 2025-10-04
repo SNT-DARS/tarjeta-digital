@@ -10,7 +10,11 @@
     * { box-sizing: border-box; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:#f3f4f6; color:var(--text); }
     .wrap { min-height: 100dvh; display:grid; place-items:center; padding:24px; }
-    .card { width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+    .card {
+      width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px;
+      padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.06);
+      display:flex; flex-direction:column; /* permite pegar las acciones al fondo */
+    }
 
     /* Header: solo logo a la izquierda */
     .header { display:flex; align-items:center; justify-content:flex-start; }
@@ -22,16 +26,21 @@
     .info .label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
     .info .value { font-size:14px; font-weight:600; }
 
-    /* Recuadros de acciones iguales (4 en una fila) */
-    .actions { margin-top:16px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
+    /* Recuadros de acciones iguales (4 en una fila) — pegados al fondo */
+    .actions {
+      margin-top:auto; /* empuja esta fila al fondo de la tarjeta */
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;
+    }
     @media (max-width:720px){ .actions { grid-template-columns: repeat(2, 1fr); } }
-    a.btn { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
-    a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
-    .btn small { color: var(--muted); display:block; font-size:12px; }
-    .btn strong { display:block; font-size:14px; }
 
-    .footer { margin-top:16px; display:flex; justify-content:flex-end; }
-    .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:10px 12px; border-radius:12px; text-decoration:none; }
+    /* Altura a la mitad (padding reducido) */
+    a.btn { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
+    a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
+    .btn small { color: var(--muted); display:block; font-size:12px; line-height:1.1; }
+    .btn strong { display:block; font-size:14px; line-height:1.1; }
+
+    .footer { margin-top:12px; display:flex; justify-content:flex-end; }
+    .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:8px 10px; border-radius:12px; text-decoration:none; }
   </style>
 </head>
 <body>
@@ -51,11 +60,11 @@
         </div>
         <div class="box">
           <span class="label">Contacto</span>
-          <span class="value" id="contactText">56332940 · autoservicioelpunto@gmail.com</span>
+          <span class="value" id="contactText">Teléfono: 56332940 — Correo: autoservicioelpunto@gmail.com</span>
         </div>
       </div>
 
-      <!-- ACCIONES (4 iguales abajo) -->
+      <!-- ACCIONES (4 iguales, al fondo) -->
       <div class="actions">
         <!-- 1) WhatsApp -->
         <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
@@ -90,11 +99,10 @@
     // ======== TUS DATOS ========
     const DATA = {
       whatsappNumber: "50256332940", // sin + ni espacios
-      phonePretty: "56332940",        // solo para mostrar
+      phonePretty: "56332940",
       email: "autoservicioelpunto@gmail.com",
       addressText: "calzada aguilar batres 10-19 zona 12, Guatemala",
-      lat: null,  // si algún día quieres precisión con coordenadas
-      lng: null,
+      lat: null, lng: null,
       shareTitle: "Autoservicio — Tarjeta",
       shareText: "Contacto de Autoservicio"
     };
@@ -104,7 +112,7 @@
 
     // Texto sin enlaces
     $('#dirText').textContent = DATA.addressText;
-    $('#contactText').textContent = `${DATA.phonePretty} · ${DATA.email}`;
+    $('#contactText').textContent = `Teléfono: ${DATA.phonePretty} — Correo: ${DATA.email}`;
 
     // WhatsApp con mensaje prellenado
     const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
