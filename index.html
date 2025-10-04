@@ -10,43 +10,39 @@
     * { box-sizing: border-box; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:#f3f4f6; color:var(--text); }
     .wrap { min-height: 100dvh; display:grid; place-items:center; padding:24px; }
-    .card {
+    .card{
       width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px;
-      padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.06);
-      display:flex; flex-direction:column; height:100%;
+      padding:24px; padding-bottom:16px; box-shadow:0 10px 30px rgba(0,0,0,.06);
+      display:flex; flex-direction:column;
     }
 
     /* Header con logo */
-    .header { display:flex; align-items:center; justify-content:flex-start; }
-    .logo { height:64px; max-width:200px; object-fit:contain; }
+    .header{display:flex; align-items:center; justify-content:flex-start;}
+    .logo{height:64px; max-width:200px; object-fit:contain;}
 
-    /* Fila de información (texto sin enlaces) */
-    .info { margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .info .box { background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; color:#374151; }
-    .info .label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
-    .info .value { font-size:14px; font-weight:600; }
+    /* Info (solo texto) */
+    .info{margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+    .info .box{background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; color:#374151;}
+    .info .label{display:block; font-size:12px; color:var(--muted); margin-bottom:4px;}
+    .info .value{font-size:14px; font-weight:600;}
 
-    /* Recuadros de acciones (pegados abajo) */
-    .actions {
-      margin-top:auto; /* baja hasta el fondo */
-      display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;
+    /* Botones pegados al fondo */
+    .actions{
+      margin-top:auto;            /* baja esta fila hasta el fondo de la tarjeta */
+      display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
     }
-    @media (max-width:720px){ .actions { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width:720px){ .actions{grid-template-columns:repeat(2,1fr);} }
 
-    /* Altura reducida (mitad de lo que estaban) */
-    a.btn {
+    /* Mitad de altura */
+    a.btn{
       display:flex; align-items:center; justify-content:center;
-      gap:8px; padding:6px 8px; /* <- aquí bajé la altura */
-      border-radius:14px; border:1px solid #e5e7eb;
-      text-decoration:none; color:var(--text); background:#fff;
-      min-height:60px; /* asegura mismo tamaño */
+      gap:8px; padding:6px 8px;               /* <— más bajo */
+      border-radius:14px; border:1px solid #e5e7eb; text-decoration:none;
+      color:var(--text); background:#fff;
     }
-    a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
-    .btn small { color: var(--muted); display:block; font-size:12px; line-height:1.1; }
-    .btn strong { display:block; font-size:14px; line-height:1.1; text-align:center; }
-
-    .footer { margin-top:12px; display:flex; justify-content:flex-end; }
-    .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:8px 10px; border-radius:12px; text-decoration:none; }
+    a.btn:hover{border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease;}
+    .btn small{color:var(--muted); display:block; font-size:12px; line-height:1.1;}
+    .btn strong{display:block; font-size:14px; line-height:1.1; text-align:center;}
   </style>
 </head>
 <body>
@@ -70,52 +66,41 @@
         </div>
       </div>
 
-      <!-- Botones abajo -->
+      <!-- Botones (ABAJO) -->
       <div class="actions">
         <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
-          <span>💬</span>
-          <span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
+          <span>💬</span><span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
         </a>
         <a class="btn" id="mailLink" href="#" rel="noopener">
-          <span>✉️</span>
-          <span><small>Email</small><strong id="emailText"></strong></span>
+          <span>✉️</span><span><small>Email</small><strong id="emailText"></strong></span>
         </a>
         <a class="btn" id="wazeLink" href="#" target="_blank" rel="noopener">
-          <span>🧭</span>
-          <span><small>Waze</small><strong>Abrir en Waze</strong></span>
+          <span>🧭</span><span><small>Waze</small><strong>Abrir en Waze</strong></span>
         </a>
         <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
-          <span>📍</span>
-          <span><small>Google Maps</small><strong>Ver en Google Maps</strong></span>
+          <span>📍</span><span><small>Google Maps</small><strong>Ver en Google Maps</strong></span>
         </a>
-      </div>
-
-      <div class="footer">
-        <a class="minor" id="shareBtn">Compartir</a>
       </div>
 
     </div>
   </div>
 
   <script>
-    // ======== TUS DATOS ========
+    // Datos
     const DATA = {
-      whatsappNumber: "50256332940",
-      phonePretty: "56332940",
-      email: "autoservicioelpunto@gmail.com",
-      addressText: "calzada aguilar batres 10-19 zona 12, Guatemala",
-      lat: null, lng: null,
-      shareTitle: "Autoservicio — Tarjeta",
-      shareText: "Contacto de Autoservicio"
+      whatsappNumber:"50256332940",
+      phonePretty:"56332940",
+      email:"autoservicioelpunto@gmail.com",
+      addressText:"calzada aguilar batres 10-19 zona 12, Guatemala",
+      lat:null, lng:null
     };
-
-    const $ = (sel) => document.querySelector(sel);
+    const $ = s=>document.querySelector(s);
 
     // Texto
     $('#dirText').textContent = DATA.addressText;
     $('#contactText').textContent = `Teléfono: ${DATA.phonePretty} — Correo: ${DATA.email}`;
 
-    // WhatsApp con mensaje
+    // WhatsApp
     const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
     $('#waLink').href = `https://wa.me/${DATA.whatsappNumber}?text=${preset}`;
 
@@ -125,27 +110,11 @@
 
     // Mapas
     const enc = encodeURIComponent;
-    const mapsQuery = (DATA.lat && DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
-    const waze = (DATA.lat && DATA.lng)
+    const q = (DATA.lat&&DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
+    $('#wazeLink').href = (DATA.lat&&DATA.lng)
       ? `https://waze.com/ul?ll=${DATA.lat}%2C${DATA.lng}&navigate=yes`
       : `https://waze.com/ul?q=${enc(DATA.addressText)}&navigate=yes`;
-    const gmaps = `https://maps.google.com/?q=${mapsQuery}`;
-    $('#wazeLink').href = waze;
-    $('#mapsLink').href = gmaps;
-
-    // Compartir
-    const shareBtn = $('#shareBtn');
-    if (navigator.share) {
-      shareBtn.addEventListener('click', () => {
-        navigator.share({
-          title: DATA.shareTitle,
-          text: DATA.shareText,
-          url: window.location.href
-        });
-      });
-    } else {
-      shareBtn.style.display = 'none';
-    }
+    $('#mapsLink').href = `https://maps.google.com/?q=${q}`;
   </script>
 </body>
 </html>
