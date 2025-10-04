@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Autoservicio — Tarjeta Digital</title>
+  <meta name="description" content="Mecánica automotriz, lavado y detallado. Guatemala." />
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#0f172a; color:var(--text); }
+    .wrap { min-height: 100vh; display:grid; place-items:center; padding:24px; }
+    .card { width:100%; max-width:720px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.08); border-radius:22px; padding:24px; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+    .title { font-size:24px; font-weight:800; line-height:1.1; }
+    .subtitle { color:var(--muted); margin-top:4px; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .tag { font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.1); color:var(--muted); }
+    .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:18px; }
+    @media (max-width:560px){ .grid { grid-template-columns:1fr; } }
+    a.btn { display:flex; align-items:center; gap:10px; padding:14px 14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); text-decoration:none; color:var(--text); background:#0b1220; }
+    a.btn:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-1px); transition: .2s ease; }
+    .btn small { color: var(--muted); display:block; font-size:12px; }
+    .btn strong { display:block; font-size:14px; }
+    .footer { margin-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    button.minor, a.minor { background:transparent; border:1px dashed rgba(255,255,255,0.25); color:var(--muted); padding:10px 12px; border-radius:12px; cursor:pointer; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Tarjeta de presentación">
+      <div class="title">Autoservicio</div>
+      <div class="subtitle">Mecánica automotriz · Lavado y detallado — Guatemala, GT</div>
+      <div class="row">
+        <span class="tag">Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita</span>
+      </div>
+
+      <div class="grid" style="margin-top:20px">
+        <!-- WhatsApp principal con mensaje prellenado -->
+        <a class="btn" id="waLink" href="https://wa.me/50256332940?text=Hola%2C%20me%20interesa%20recibir%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20Autoservicio." target="_blank" rel="noopener">
+          <span>💬</span>
+          <span><small>WhatsApp</small><strong>Escríbenos</strong></span>
+        </a>
+        <!-- Email -->
+        <a class="btn" id="mailLink" href="mailto:autoservicioelpunto@gmail.com" rel="noopener">
+          <span>✉️</span>
+          <span><small>Email</small><strong>autoservicioelpunto@gmail.com</strong></span>
+        </a>
+        <!-- Google Maps -->
+        <a class="btn" id="mapsLink" href="https://maps.google.com/?q=Calzada%20Aguilar%20Batres%2010-19%2C%20Zona%2012%2C%20Colonia%20La%20Reformita" target="_blank" rel="noopener">
+          <span>📍</span>
+          <span><small>Cómo llegar</small><strong>Ver en Google Maps</strong></span>
+        </a>
+        <!-- Waze -->
+        <a class="btn" id="wazeLink" href="https://waze.com/ul?q=Calzada%20Aguilar%20Batres%2010-19%20Zona%2012%20Colonia%20La%20Reformita&navigate=yes" target="_blank" rel="noopener">
+          <span>🧭</span>
+          <span><small>Waze</small><strong>Abrir en Waze</strong></span>
+        </a>
+      </div>
+
+      <div class="footer">
+        <button class="minor" id="downloadVcf">Descargar contacto (.vcf)</button>
+        <a class="minor" id="shareBtn">Compartir</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Descargar vCard (.vcf) para añadir a contactos
+    function downloadVcf() {
+      const lines = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'FN:Autoservicio',
+        'ORG:Autoservicio',
+        'TITLE:Mecánica automotriz · Lavado y detallado',
+        'TEL;TYPE=CELL,VOICE:+50256332940',
+        'EMAIL;TYPE=INTERNET:autoservicioelpunto@gmail.com',
+        'ADR;TYPE=WORK:;;Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita;;;;',
+        'END:VCARD'
+      ];
+      const blob = new Blob([lines.join('\n')], { type: 'text/vcard' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Autoservicio.vcf';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    }
+    document.getElementById('downloadVcf').addEventListener('click', downloadVcf);
+
+    // Compartir (si el navegador soporta Web Share API)
+    const shareBtn = document.getElementById('shareBtn');
+    if (navigator.share) {
+      shareBtn.addEventListener('click', () => {
+        navigator.share({
+          title: 'Autoservicio — Tarjeta',
+          text: 'Contacto de Autoservicio',
+          url: window.location.href
+        });
+      });
+    } else {
+      shareBtn.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
