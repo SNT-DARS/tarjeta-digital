@@ -67,7 +67,6 @@
       </div>
 
       <div class="footer">
-        <!-- Dejo solo compartir; se oculta en navegadores sin soporte -->
         <a class="minor" id="shareBtn">Compartir</a>
       </div>
     </div>
@@ -82,8 +81,8 @@
       whatsappNumber: "50256332940", // sin + ni espacios
       email: "autoservicioelpunto@gmail.com",
       addressText: "Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita",
-      lat: null, // si tienes coords exactas, pon ej. 14.6349
-      lng: null  // y -90.5069
+      lat: null,
+      lng: null
     };
 
     // ======== NO EDITAR ABAJO ========
@@ -101,7 +100,7 @@
     $('#mailLink').href = `mailto:${DATA.email}`;
     $('#emailText').textContent = DATA.email;
 
-    // Mapas (según dirección o coordenadas)
+    // Mapas
     const enc = encodeURIComponent;
     const mapsQuery = (DATA.lat && DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
     const gmaps = `https://maps.google.com/?q=${mapsQuery}`;
