@@ -4,119 +4,76 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Autoservicio — Tarjeta Digital</title>
-  <meta name="description" content="Mecánica automotriz, lavado y detallado. Guatemala." />
   <style>
-    :root { --muted:#6b7280; --text:#1f2937; }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:#f3f4f6; color:var(--text); }
-    .wrap { min-height: 100dvh; display:grid; place-items:center; padding:24px; }
-    .card{
-      width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px;
-      padding:24px; padding-bottom:16px; box-shadow:0 10px 30px rgba(0,0,0,.06);
-      display:flex; flex-direction:column;
+    body {
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background:#f3f4f6;
+      color:#1f2937;
+    }
+    .wrap { min-height: 100vh; display:grid; place-items:center; padding:24px; }
+    .card { width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:28px; box-shadow: 0 10px 30px rgba(0,0,0,.06); display:flex; flex-direction:column; }
+
+    .header { display:flex; align-items:flex-start; gap:20px; }
+    .logo { width:80px; height:auto; object-fit:contain; }
+
+    .services { 
+      font-size:14px;
+      color:#333;
+      line-height:1.5;
     }
 
-    /* Header con logo */
-    .header{display:flex; align-items:center; justify-content:flex-start;}
-    .logo{height:64px; max-width:200px; object-fit:contain;}
+    .info { display:flex; gap:16px; margin-top:20px; flex-wrap:wrap; }
+    .info-box { flex:1; min-width:260px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:14px; font-size:14px; }
+    .info-box strong { display:block; color:#6b7280; font-size:13px; margin-bottom:4px; }
 
-    /* Info (solo texto) */
-    .info{margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-    .info .box{background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; color:#374151;}
-    .info .label{display:block; font-size:12px; color:var(--muted); margin-bottom:4px;}
-    .info .value{font-size:14px; font-weight:600;}
-
-    /* Botones pegados al fondo */
-    .actions{
-      margin-top:auto;            /* baja esta fila hasta el fondo de la tarjeta */
-      display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
-    }
-    @media (max-width:720px){ .actions{grid-template-columns:repeat(2,1fr);} }
-
-    /* Botones pequeñitos (1/4 del tamaño) */
-    a.btn{
+    .actions { margin-top:auto; display:grid; grid-template-columns: repeat(4,1fr); gap:10px; }
+    a.btn {
       display:flex; align-items:center; justify-content:center;
-      gap:6px; padding:3px 5px;              /* aún más chico */
-      border-radius:10px; border:1px solid #e5e7eb; text-decoration:none;
-      color:var(--text); background:#fff;
-      min-height:28px;                      /* altura mínima bajita */
-      font-size:10px;                       /* texto más pequeño */
+      padding:6px; height:45px;
+      border-radius:10px; border:1px solid #e5e7eb;
+      text-decoration:none; color:#111; background:#fff;
+      font-size:12px; font-weight:600; text-align:center;
     }
-    a.btn:hover{border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease;}
-    .btn small{color:var(--muted); display:block; font-size:9px; line-height:1;}
-    .btn strong{display:block; font-size:11px; line-height:1.1; text-align:center;}
+    a.btn:hover { background:#f3f4f6; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card" role="region" aria-label="Tarjeta de presentación">
-
-      <!-- Logo -->
+    <div class="card">
+      <!-- HEADER -->
       <div class="header">
-        <img class="logo" id="logo" src="logo.png" alt="Autoservicio" />
+        <img src="logo.png" alt="Autoservicio" class="logo">
+        <div class="services">
+          <p>Mecánica Automotriz</p>
+          <p>Lavado y aspirado</p>
+          <p>Lustrado y pulido</p>
+          <p>Lavado de tapicería</p>
+          <p>Lavado de motor</p>
+          <p>Venta de llantas nuevas, varias marcas y medidas.</p>
+        </div>
       </div>
 
-      <!-- Texto -->
+      <!-- INFO -->
       <div class="info">
-        <div class="box">
-          <span class="label">Dirección</span>
-          <span class="value" id="dirText">calzada aguilar batres 10-19 zona 12, Guatemala</span>
+        <div class="info-box">
+          <strong>Dirección</strong>
+          calzada aguilar batres 10-19 zona 12, Guatemala
         </div>
-        <div class="box">
-          <span class="label">Contacto</span>
-          <span class="value" id="contactText">Teléfono: 56332940 — Correo: autoservicioelpunto@gmail.com</span>
+        <div class="info-box">
+          <strong>Contacto</strong>
+          Teléfono: 56332940 — Correo: autoservicioelpunto@gmail.com
         </div>
       </div>
 
-      <!-- Botones (ABAJO) -->
+      <!-- ACCIONES (abajo de todo) -->
       <div class="actions">
-        <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
-          <span>💬</span><span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
-        </a>
-        <a class="btn" id="mailLink" href="#" rel="noopener">
-          <span>✉️</span><span><small>Email</small><strong id="emailText"></strong></span>
-        </a>
-        <a class="btn" id="wazeLink" href="#" target="_blank" rel="noopener">
-          <span>🧭</span><span><small>Waze</small><strong>Abrir en Waze</strong></span>
-        </a>
-        <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
-          <span>📍</span><span><small>Google Maps</small><strong>Ver en Google Maps</strong></span>
-        </a>
+        <a class="btn" href="https://wa.me/50256332940?text=Hola,%20me%20interesa%20información%20sobre%20sus%20servicios">WhatsApp</a>
+        <a class="btn" href="mailto:autoservicioelpunto@gmail.com">Email</a>
+        <a class="btn" href="https://waze.com/ul?q=Calzada%20Aguilar%20Batres%2010-19%20Zona%2012%20Guatemala&navigate=yes">Waze</a>
+        <a class="btn" href="https://maps.google.com/?q=Calzada%20Aguilar%20Batres%2010-19%20Zona%2012%20Guatemala">Google Maps</a>
       </div>
-
     </div>
   </div>
-
-  <script>
-    // Datos
-    const DATA = {
-      whatsappNumber:"50256332940",
-      phonePretty:"56332940",
-      email:"autoservicioelpunto@gmail.com",
-      addressText:"calzada aguilar batres 10-19 zona 12, Guatemala",
-      lat:null, lng:null
-    };
-    const $ = s=>document.querySelector(s);
-
-    // Texto
-    $('#dirText').textContent = DATA.addressText;
-    $('#contactText').textContent = `Teléfono: ${DATA.phonePretty} — Correo: ${DATA.email}`;
-
-    // WhatsApp
-    const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
-    $('#waLink').href = `https://wa.me/${DATA.whatsappNumber}?text=${preset}`;
-
-    // Email
-    $('#mailLink').href = `mailto:${DATA.email}`;
-    $('#emailText').textContent = DATA.email;
-
-    // Mapas
-    const enc = encodeURIComponent;
-    const q = (DATA.lat&&DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
-    $('#wazeLink').href = (DATA.lat&&DATA.lng)
-      ? `https://waze.com/ul?ll=${DATA.lat}%2C${DATA.lng}&navigate=yes`
-      : `https://waze.com/ul?q=${enc(DATA.addressText)}&navigate=yes`;
-    $('#mapsLink').href = `https://maps.google.com/?q=${q}`;
-  </script>
 </body>
 </html>
