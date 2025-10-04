@@ -13,10 +13,10 @@
     .card {
       width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px;
       padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.06);
-      display:flex; flex-direction:column; /* permite pegar las acciones al fondo */
+      display:flex; flex-direction:column; height:100%;
     }
 
-    /* Header: solo logo a la izquierda */
+    /* Header con logo */
     .header { display:flex; align-items:center; justify-content:flex-start; }
     .logo { height:64px; max-width:200px; object-fit:contain; }
 
@@ -26,18 +26,24 @@
     .info .label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
     .info .value { font-size:14px; font-weight:600; }
 
-    /* Recuadros de acciones iguales (4 en una fila) — pegados al fondo */
+    /* Recuadros de acciones (pegados abajo) */
     .actions {
-      margin-top:auto; /* empuja esta fila al fondo de la tarjeta */
+      margin-top:auto; /* baja hasta el fondo */
       display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;
     }
     @media (max-width:720px){ .actions { grid-template-columns: repeat(2, 1fr); } }
 
-    /* Altura a la mitad (padding reducido) */
-    a.btn { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
+    /* Altura reducida (mitad de lo que estaban) */
+    a.btn {
+      display:flex; align-items:center; justify-content:center;
+      gap:8px; padding:6px 8px; /* <- aquí bajé la altura */
+      border-radius:14px; border:1px solid #e5e7eb;
+      text-decoration:none; color:var(--text); background:#fff;
+      min-height:60px; /* asegura mismo tamaño */
+    }
     a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
     .btn small { color: var(--muted); display:block; font-size:12px; line-height:1.1; }
-    .btn strong { display:block; font-size:14px; line-height:1.1; }
+    .btn strong { display:block; font-size:14px; line-height:1.1; text-align:center; }
 
     .footer { margin-top:12px; display:flex; justify-content:flex-end; }
     .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:8px 10px; border-radius:12px; text-decoration:none; }
@@ -47,12 +53,12 @@
   <div class="wrap">
     <div class="card" role="region" aria-label="Tarjeta de presentación">
 
-      <!-- ENCABEZADO: solo logo -->
+      <!-- Logo -->
       <div class="header">
         <img class="logo" id="logo" src="logo.png" alt="Autoservicio" />
       </div>
 
-      <!-- TEXTO (sin enlaces) -->
+      <!-- Texto -->
       <div class="info">
         <div class="box">
           <span class="label">Dirección</span>
@@ -64,24 +70,20 @@
         </div>
       </div>
 
-      <!-- ACCIONES (4 iguales, al fondo) -->
+      <!-- Botones abajo -->
       <div class="actions">
-        <!-- 1) WhatsApp -->
         <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
           <span>💬</span>
           <span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
         </a>
-        <!-- 2) Email -->
         <a class="btn" id="mailLink" href="#" rel="noopener">
           <span>✉️</span>
           <span><small>Email</small><strong id="emailText"></strong></span>
         </a>
-        <!-- 3) Waze -->
         <a class="btn" id="wazeLink" href="#" target="_blank" rel="noopener">
           <span>🧭</span>
           <span><small>Waze</small><strong>Abrir en Waze</strong></span>
         </a>
-        <!-- 4) Google Maps -->
         <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
           <span>📍</span>
           <span><small>Google Maps</small><strong>Ver en Google Maps</strong></span>
@@ -98,7 +100,7 @@
   <script>
     // ======== TUS DATOS ========
     const DATA = {
-      whatsappNumber: "50256332940", // sin + ni espacios
+      whatsappNumber: "50256332940",
       phonePretty: "56332940",
       email: "autoservicioelpunto@gmail.com",
       addressText: "calzada aguilar batres 10-19 zona 12, Guatemala",
@@ -107,14 +109,13 @@
       shareText: "Contacto de Autoservicio"
     };
 
-    // ======== NO EDITAR ABAJO ========
     const $ = (sel) => document.querySelector(sel);
 
-    // Texto sin enlaces
+    // Texto
     $('#dirText').textContent = DATA.addressText;
     $('#contactText').textContent = `Teléfono: ${DATA.phonePretty} — Correo: ${DATA.email}`;
 
-    // WhatsApp con mensaje prellenado
+    // WhatsApp con mensaje
     const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
     $('#waLink').href = `https://wa.me/${DATA.whatsappNumber}?text=${preset}`;
 
@@ -122,7 +123,7 @@
     $('#mailLink').href = `mailto:${DATA.email}`;
     $('#emailText').textContent = DATA.email;
 
-    // Mapas (Waze y Google Maps)
+    // Mapas
     const enc = encodeURIComponent;
     const mapsQuery = (DATA.lat && DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
     const waze = (DATA.lat && DATA.lng)
@@ -132,7 +133,7 @@
     $('#wazeLink').href = waze;
     $('#mapsLink').href = gmaps;
 
-    // Compartir (si el navegador lo soporta)
+    // Compartir
     const shareBtn = $('#shareBtn');
     if (navigator.share) {
       shareBtn.addEventListener('click', () => {
