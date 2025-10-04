@@ -6,94 +6,123 @@
   <title>Autoservicio — Tarjeta Digital</title>
   <meta name="description" content="Mecánica automotriz, lavado y detallado. Guatemala." />
   <style>
-    :root { --bg:#0f172a; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; }
+    :root { --muted:#6b7280; --text:#1f2937; }
     * { box-sizing: border-box; }
-    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#0f172a; color:var(--text); }
-    .wrap { min-height: 100vh; display:grid; place-items:center; padding:24px; }
-    .card { width:100%; max-width:720px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.08); border-radius:22px; padding:24px; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
-    .title { font-size:24px; font-weight:800; line-height:1.1; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; background:#f3f4f6; color:var(--text); }
+    .wrap { min-height: 100dvh; display:grid; place-items:center; padding:24px; }
+    .card { width:100%; max-width:860px; background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:28px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+    .header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .title { font-size:26px; font-weight:800; line-height:1.1; }
     .subtitle { color:var(--muted); margin-top:4px; }
-    .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-    .tag { font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.1); color:var(--muted); }
+    .logo { height:64px; max-width:180px; object-fit:contain; }
     .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:18px; }
     @media (max-width:560px){ .grid { grid-template-columns:1fr; } }
-    a.btn { display:flex; align-items:center; gap:10px; padding:14px 14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); text-decoration:none; color:var(--text); background:#0b1220; }
-    a.btn:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-1px); transition: .2s ease; }
+    a.btn { display:flex; align-items:center; gap:10px; padding:14px 14px; border-radius:14px; border:1px solid #e5e7eb; text-decoration:none; color:var(--text); background:#fff; }
+    a.btn:hover { border-color:#d1d5db; transform:translateY(-1px); transition:.2s ease; }
     .btn small { color: var(--muted); display:block; font-size:12px; }
     .btn strong { display:block; font-size:14px; }
-    .footer { margin-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-    button.minor, a.minor { background:transparent; border:1px dashed rgba(255,255,255,0.25); color:var(--muted); padding:10px 12px; border-radius:12px; cursor:pointer; text-decoration:none; }
+    .footer { margin-top:18px; display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; }
+    .minor { background:#fff; border:1px dashed #d1d5db; color:var(--muted); padding:10px 12px; border-radius:12px; text-decoration:none; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card" role="region" aria-label="Tarjeta de presentación">
-      <div class="title">Autoservicio</div>
-      <div class="subtitle">Mecánica automotriz · Lavado y detallado — Guatemala, GT</div>
-      <div class="row">
-        <span class="tag">Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita</span>
+      <!-- ENCABEZADO -->
+      <div class="header">
+        <div>
+          <div class="title" id="name">Autoservicio</div>
+          <div class="subtitle" id="role">Mecánica automotriz · Lavado y detallado — Guatemala, GT</div>
+        </div>
+        <img class="logo" id="logo" src="logo.png" alt="Autoservicio" />
       </div>
 
+      <!-- ACCIONES PRINCIPALES -->
       <div class="grid" style="margin-top:20px">
-        <!-- WhatsApp principal con mensaje prellenado -->
-        <a class="btn" id="waLink" href="https://wa.me/50256332940?text=Hola%2C%20me%20interesa%20recibir%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20Autoservicio." target="_blank" rel="noopener">
+        <!-- WhatsApp (único contacto principal) -->
+        <a class="btn" id="waLink" href="#" target="_blank" rel="noopener">
           <span>💬</span>
-          <span><small>WhatsApp</small><strong>Escríbenos</strong></span>
+          <span><small>WhatsApp</small><strong>Chatear ahora</strong></span>
         </a>
         <!-- Email -->
-        <a class="btn" id="mailLink" href="mailto:autoservicioelpunto@gmail.com" rel="noopener">
+        <a class="btn" id="mailLink" href="#" rel="noopener">
           <span>✉️</span>
-          <span><small>Email</small><strong>autoservicioelpunto@gmail.com</strong></span>
+          <span><small>Email</small><strong id="emailText"></strong></span>
         </a>
         <!-- Google Maps -->
-        <a class="btn" id="mapsLink" href="https://maps.google.com/?q=Calzada%20Aguilar%20Batres%2010-19%2C%20Zona%2012%2C%20Colonia%20La%20Reformita" target="_blank" rel="noopener">
+        <a class="btn" id="mapsLink" href="#" target="_blank" rel="noopener">
           <span>📍</span>
           <span><small>Cómo llegar</small><strong>Ver en Google Maps</strong></span>
         </a>
         <!-- Waze -->
-        <a class="btn" id="wazeLink" href="https://waze.com/ul?q=Calzada%20Aguilar%20Batres%2010-19%20Zona%2012%20Colonia%20La%20Reformita&navigate=yes" target="_blank" rel="noopener">
+        <a class="btn" id="wazeLink" href="#" target="_blank" rel="noopener">
           <span>🧭</span>
           <span><small>Waze</small><strong>Abrir en Waze</strong></span>
+        </a>
+        <!-- Apple Maps -->
+        <a class="btn" id="appleMapsLink" href="#" target="_blank" rel="noopener">
+          <span>🗺️</span>
+          <span><small>Apple Maps</small><strong>Abrir en Apple Maps</strong></span>
         </a>
       </div>
 
       <div class="footer">
-        <button class="minor" id="downloadVcf">Descargar contacto (.vcf)</button>
+        <!-- Dejo solo compartir; se oculta en navegadores sin soporte -->
         <a class="minor" id="shareBtn">Compartir</a>
       </div>
     </div>
   </div>
 
   <script>
-    // Descargar vCard (.vcf) para añadir a contactos
-    function downloadVcf() {
-      const lines = [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        'FN:Autoservicio',
-        'ORG:Autoservicio',
-        'TITLE:Mecánica automotriz · Lavado y detallado',
-        'TEL;TYPE=CELL,VOICE:+50256332940',
-        'EMAIL;TYPE=INTERNET:autoservicioelpunto@gmail.com',
-        'ADR;TYPE=WORK:;;Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita;;;;',
-        'END:VCARD'
-      ];
-      const blob = new Blob([lines.join('\n')], { type: 'text/vcard' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'Autoservicio.vcf';
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 500);
-    }
-    document.getElementById('downloadVcf').addEventListener('click', downloadVcf);
+    // ======== TUS DATOS ========
+    const DATA = {
+      name: "Autoservicio",
+      role: "Mecánica automotriz · Lavado y detallado",
+      city: "Guatemala, GT",
+      whatsappNumber: "50256332940", // sin + ni espacios
+      email: "autoservicioelpunto@gmail.com",
+      addressText: "Calzada Aguilar Batres 10-19, Zona 12, Colonia La Reformita",
+      lat: null, // si tienes coords exactas, pon ej. 14.6349
+      lng: null  // y -90.5069
+    };
 
-    // Compartir (si el navegador soporta Web Share API)
-    const shareBtn = document.getElementById('shareBtn');
+    // ======== NO EDITAR ABAJO ========
+    const $ = (sel) => document.querySelector(sel);
+
+    // Títulos
+    $('#name').textContent = DATA.name;
+    $('#role').textContent = `${DATA.role} — ${DATA.city}`;
+
+    // WhatsApp con mensaje prellenado
+    const preset = encodeURIComponent('Hola, me interesa recibir información sobre los servicios de Autoservicio.');
+    $('#waLink').href = `https://wa.me/${DATA.whatsappNumber}?text=${preset}`;
+
+    // Email
+    $('#mailLink').href = `mailto:${DATA.email}`;
+    $('#emailText').textContent = DATA.email;
+
+    // Mapas (según dirección o coordenadas)
+    const enc = encodeURIComponent;
+    const mapsQuery = (DATA.lat && DATA.lng) ? `${DATA.lat},${DATA.lng}` : enc(DATA.addressText);
+    const gmaps = `https://maps.google.com/?q=${mapsQuery}`;
+    const waze = (DATA.lat && DATA.lng)
+      ? `https://waze.com/ul?ll=${DATA.lat}%2C${DATA.lng}&navigate=yes`
+      : `https://waze.com/ul?q=${enc(DATA.addressText)}&navigate=yes`;
+    const amap = (DATA.lat && DATA.lng)
+      ? `https://maps.apple.com/?ll=${DATA.lat},${DATA.lng}`
+      : `https://maps.apple.com/?q=${enc(DATA.addressText)}`;
+
+    $('#mapsLink').href = gmaps;
+    $('#wazeLink').href = waze;
+    $('#appleMapsLink').href = amap;
+
+    // Compartir (si el navegador lo soporta)
+    const shareBtn = $('#shareBtn');
     if (navigator.share) {
       shareBtn.addEventListener('click', () => {
         navigator.share({
-          title: 'Autoservicio — Tarjeta',
-          text: 'Contacto de Autoservicio',
+          title: `${DATA.name} — Tarjeta`,
+          text: `Contacto de ${DATA.name}`,
           url: window.location.href
         });
       });
